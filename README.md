@@ -1,13 +1,13 @@
 # Thomas-s-AI-Proficiency-Accelerator-Sessions
-# AI Proficiency Accelerator — 4-Session Workshop  
+# AI Proficiency Accelerator — 4-Session Training  
 ### Build Real Agentic AI Skills in 6 Hours  
-**Personalized for Thomas Gutekunst — Software Engineer, Lockheed Martin Space**
+
 
 ---
 
-## 🚀 Workshop Overview
+## 🚀 Training Overview
 
-This 4-session, 6-hour applied training equips Thomas with practical, production-ready skills in:
+This 4-session, 6-hour applied training equips participant, production-ready skills in:
 
 - Git & reproducible AI workflows  
 - Advanced prompt engineering (CoT, self-consistency, tool-calling)  
@@ -32,20 +32,18 @@ Each session is **1.5 hours**, hands-on, and optimized for a **mission-critical 
 ### Topics Covered
 - Git & GitHub workflow for AI engineering  
 - Google Colab as a reproducible AI dev environment  
-- Installing & using OpenAI / LangChain / CrewAI SDKs  
 - Structured prompt engineering (zero-shot, few-shot, CoT, SC, tool-calling)  
 - Building a Custom GPT for engineering workflows  
 - Organizing AI repos for reliability & traceability  
 
-### Hands-On Activities
-- Create & push an AI engineering repo to GitHub  
+### Hands-On Activities 
 - Run your first LLM API call in Colab  
   [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](#)
-- Build engineering-grade prompts (requirements review, log summaries, code review)  
-- Create a “Thomas Engineering Assistant GPT”  
+- Build high quality prompts (requirements review, log summaries, code review)   [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](#)
+- Create a “Thomas Assistant GPT”  
 
 ### Key Outcomes
-Thomas learns professional AI dev workflows, gains a prompt engineering toolkit, and builds his first internal-use Custom GPT.
+Thomas learns professional AI dev workflows, gains a prompt engineering toolkit, and builds first internal-use Custom GPT.
 
 ---
 
