@@ -38,9 +38,9 @@ Each session is **1.5 hours**, hands-on, and optimized for a **mission-critical 
 
 ### Hands-On Activities 
 - Run your first LLM API call in Colab  
-  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1BihIWRJdskAXWuYQaT9zkBZMAgnYWxe2#scrollTo=uMrCuVwfYRrj)
-- Build high quality prompts (requirements review, log summaries, code review)   [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](#)
-- Create a “Thomas Assistant GPT”  
+- Build high quality prompts (requirements review, log summaries, code review)
+-  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1BihIWRJdskAXWuYQaT9zkBZMAgnYWxe2#scrollTo=uMrCuVwfYRrj)
+- Create a “Custom GPT”  
 
 ### Key Outcomes
 Thomas learns professional AI dev workflows, gains a prompt engineering toolkit, and builds first internal-use Custom GPT.
