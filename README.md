@@ -53,15 +53,13 @@ Thomas learns professional AI dev workflows, gains a prompt engineering toolkit,
 - How LLMs work (engineer-friendly explanation)  
 - Prompting vs fine-tuning vs embeddings vs RAG  
 - Agentic AI fundamentals  
-- ReAct logic (reason → act → observe → reflect)  
-- Vector DBs & semantic search  
-- Pinecone RAG pipeline (chunking, embedding, querying)  
+- ReAct logic (reason → act → observe → reflect)   
+- ChromaDB RAG pipeline (chunking, embedding, querying)  
 
 ### Hands-On Activities
-- Build a RAG agent that answers engineering questions  
-  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](#)
-- Construct an end-to-end semantic search system  
-- Experiment with retrieval prompts & structured outputs  
+- Build a Meeting Scheduler Bot & A RAG Agent   
+  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1sMJtqFFVbJoYCQPqVJef6zFmRWWgMc7f#scrollTo=X8yP76TBodHA)
+- Multiagent Content Crew [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1frj1fTXRtmCsML4N_pfGpykwpHr7ToGV)
 
 ### Key Outcomes
 Thomas builds a working RAG pipeline and understands the architecture behind LLM-powered knowledge systems.
