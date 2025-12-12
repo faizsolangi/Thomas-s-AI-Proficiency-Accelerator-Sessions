@@ -113,7 +113,7 @@ Each briefing contains:
 
 ## 🧱 Workflow Architecture (Logical Flow)
 
-
+```text
 Schedule Trigger
 ↓
 Set (date_utc, raw_inputs)
@@ -126,7 +126,7 @@ IF (skip empty input)
 `/automation/n8n_daily_briefing.json`
 
 ### Key Outcomes
-Learns to automate engineering workflows and connect LLM outputs to real-time systems.
+Learns to automate engineering workflows and connect LLM outputs to real-time systems.```
 
 
 # 📈 Session 4 — Applications: Academic AI Tools (1.5 hrs)
