@@ -76,18 +76,51 @@ Thomas builds a working RAG pipeline and understands the architecture behind LLM
 - Multi-source data ingestion (email, tasks, logs)  
 
 ### Hands-On Project  
+# Session 3 — No-Code Automation: Daily Engineering Briefing
+### n8n + OpenAI + Gmail
 
-**Build an automated Daily Engineering Briefing System**  
-- Fetch messages, tasks, or updates  
-- Summarize via LLM  
-- Deliver briefing via email/Slack  
-- Extendable for internal team notifications  
+This repository contains the **complete, end-to-end implementation** of the **Daily Engineering Briefing** built during **Session 3** of the *AI Proficiency Accelerator*.
+
+The purpose of this session is to demonstrate how **Large Language Models (LLMs)** move from **isolated prompts** to **reliable, automated, production-grade systems** using **n8n**, with **secure credential handling** and **engineering-grade workflow design**.
+
+Everything required to understand, reproduce, and extend this system is documented below.
+
+---
+
+## 🎯 What This System Does
+
+On a daily schedule, the workflow:
+
+1. Collects engineering inputs  
+2. Uses an LLM to generate a **structured engineering briefing**  
+3. Formats the output into a human-readable report  
+4. Sends the briefing via **Gmail**
+
+Each briefing contains:
+- Key events  
+- Anomalies  
+- Recommended actions  
+- Risk level  
+- Notes / assumptions  
+
+---
+
+## 🧱 Workflow Architecture (Logical Flow)
+
+```text
+Schedule Trigger
+↓
+Set (date_utc, raw_inputs)
+↓
+IF (skip empty input)
+├─ TRUE  → OpenAI → Parse JSON → Format Email → Gmail Send
+└─ FALSE → Optional “No Updates” Email / NoOp
 
 **Workflow Template:**  
 `/automation/n8n_daily_briefing.json`
 
 ### Key Outcomes
-Thomas learns to automate engineering workflows and connect LLM outputs to real-time systems.
+Learns to automate engineering workflows and connect LLM outputs to real-time systems.
 
 ---
 
