@@ -127,3 +127,41 @@ IF (skip empty input)
 
 ### Key Outcomes
 Learns to automate engineering workflows and connect LLM outputs to real-time systems.
+
+
+# 📈 Session 4 — Applications: Academic AI Tools (1.5 hrs)
+
+### Topics Covered
+- Principles of fast AI prototyping  
+- Designing small academic AI apps  
+- Streamlit front-end for AI  
+- Connecting Python backend + OpenAI API  
+- Deploying on Render  
+
+
+## 🧪 Application 1 — Agentic AI Data Analysis Bot
+A Streamlit-based automated data analysis assistant that performs:
+
+- Data cleaning  
+- Feature engineering  
+- AutoML model selection  
+- Model training & evaluation  
+- Dashboard visualization  
+- Exportable reports  
+- Deployable on Render  
+
+Perfect for graduate research & faculty projects.
+
+---
+
+## 📚 Application 2 — Literature Review & Paper Summarizer
+Features:
+
+- PDF ingestion  
+- Summary + gap analysis  
+- BibTeX extraction  
+- Mini-survey creation  
+- RAG-based semantic search  
+- Export to LaTeX  
+
+Ideal for research groups, PhD students, and grant proposals.
