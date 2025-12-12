@@ -1,0 +1,309 @@
+{
+  "name": "Daily Engineering Briefing",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -944,
+        16
+      ],
+      "id": "6ad1f951-83a4-4c31-8a47-7803b3c985d0",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c5a4c4b6-d18c-4d37-bb73-278400f5a471",
+              "name": "date_utc",
+              "value": "={{ $now.toUTC().toFormat(\"yyyy-LL-dd\") }}",
+              "type": "string"
+            },
+            {
+              "id": "f57f0d9c-ad8a-4adf-b33b-ebb3810bbef7",
+              "name": "raw_inputs",
+              "value": "[02:14:08 UTC] Attitude control subsystem switched to Safe Mode due to unexpected torque spike on Reaction Wheel #3. [02:14:12 UTC] Telemetry indicates wheel speed exceeded nominal range by +18%. Automatic braking applied. [02:14:17 UTC] Thermal sensors in Bay 2 reported a sudden 6°C rise over 20 seconds, triggering thermal warning flag (TW-04). [02:14:25 UTC] Command uplink lost for 4 seconds during Safe Mode transition. Link restored automatically. [02:14:32 UTC] System diagnostics complete; Reaction Wheel #3 flagged for recalibration. [02:15:10 UTC] Power subsystem switched from Battery Pack B to Pack A due to voltage fluctuation (−0.9 V).",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -768,
+        16
+      ],
+      "id": "d05b2d77-ec4b-4183-abd4-3660cfe01b72",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Create a Daily Engineering Briefing.\n\nDate (UTC): {{ $json[\"date_utc\"] }}\n\nInputs:\n{{ $json[\"raw_inputs\"] }}\n\nReturn JSON using this schema:\n{\n  \"date_utc\": \"YYYY-MM-DD\",\n  \"events\": [\"...\"],\n  \"anomalies\": [\"...\"],\n  \"actions\": [\"...\"],\n  \"risk_level\": \"low|medium|high\",\n  \"notes\": \"...\"\n}\n\nRules:\n- Use only the Inputs\n- No hallucinations\n- JSON only\n"
+            },
+            {
+              "role": "system",
+              "content": "You are a mission-critical engineering briefing assistant.\nBe strictly factual.\nUse only the provided inputs.\nDo not invent details.\nReturn valid JSON only.\n"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        -256,
+        0
+      ],
+      "id": "044da2f6-c77f-47bd-be31-b3ef0e0355a5",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "JPPBmKLu6YYykcXs",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const content = $input.first().json.output[0].content[0].text\n\nif (!content) {\n  throw new Error(\"LLM output missing\");\n}\n\nlet parsed;\ntry {\n  parsed = JSON.parse(content);\n} catch (e) {\n  const start = content.indexOf(\"{\");\n  const end = content.lastIndexOf(\"}\");\n  parsed = JSON.parse(content.slice(start, end + 1));\n}\n\nreturn [{ json: parsed }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        32,
+        0
+      ],
+      "id": "2dfe6289-f89d-41ab-b749-872ad7111adc",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4c30fdc5-c751-4ef4-96f4-a2c011896b13",
+              "name": "subject",
+              "value": "=Daily Engineering Briefing — {{ $json[\"date_utc\"] }} (Risk: {{ $json[\"risk_level\"] }})",
+              "type": "string"
+            },
+            {
+              "id": "a754a2b7-6542-410f-b367-0a4439cb77e4",
+              "name": "email_body",
+              "value": "=Daily Engineering Briefing (UTC: {{ $json[\"date_utc\"] }})  Risk Level: {{ $json[\"risk_level\"] }}  Key Events: {{ $json[\"events\"].map(e => \"- \" + e).join(\"\\n\") }}  Anomalies: {{ $json[\"anomalies\"].map(a => \"- \" + a).join(\"\\n\") }}  Recommended Actions: {{ $json[\"actions\"].map(a => \"- \" + a).join(\"\\n\") }}  Notes: {{ $json[\"notes\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        256,
+        0
+      ],
+      "id": "c06283b6-54a4-48b4-9dd2-aff6f1006f17",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "sendTo": "faizsolangi@gmail.com",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.email_body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        496,
+        0
+      ],
+      "id": "fee20492-66d8-4e0b-b1d8-ead74a29e6a5",
+      "name": "Send a message",
+      "webhookId": "28116aaa-4feb-4ddb-bbb0-db0c90961028",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZNB73qNwwo3cZ54m",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5ec2de9b-8189-42f1-97aa-454944eecff0",
+              "leftValue": "=\n{{ ($json[\"raw_inputs\"] || \"\").trim().length > 0 }}\n",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "8bee3fdb-0dc9-45a1-aecc-f3e488eb71b4",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -592,
+        16
+      ],
+      "id": "ea2e2ceb-9a7e-4545-88bd-afb4f78e8c42",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "faizsolangi@gmail.com",
+        "subject": "=Daily Engineering Briefing —  {{ $('Edit Fields').item.json.date_utc }} (No Updates)",
+        "message": "=No engineering updates were recorded for this period.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -352,
+        208
+      ],
+      "id": "4102bfb5-d769-45d4-b3f1-8cf3761f2f88",
+      "name": "Send a message1",
+      "webhookId": "28116aaa-4feb-4ddb-bbb0-db0c90961028",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZNB73qNwwo3cZ54m",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d98f535a-85f8-40e0-a659-cfdad310ab42",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f8313a4a5543efb6473976d0384062f5e7f5077537f2dede242cc29046b35842"
+  },
+  "id": "xZCeo2TzfXDCC7td",
+  "tags": []
+}
