@@ -72,11 +72,10 @@ Thomas builds a working RAG pipeline and understands the architecture behind LLM
 - No-code automation principles  
 - Designing production-ready workflows  
 - LLM → n8n integrations  
-- Using triggers, HTTP nodes, API calls  
+- Using triggers, gmail, API calls  
 - Multi-source data ingestion (email, tasks, logs)  
 
 ### Hands-On Project  
-# Session 3 — No-Code Automation: Daily Engineering Briefing
 ### n8n + OpenAI + Gmail
 
 This repository contains the **complete, end-to-end implementation** of the **Daily Engineering Briefing** built during **Session 3** of the *AI Proficiency Accelerator*.
