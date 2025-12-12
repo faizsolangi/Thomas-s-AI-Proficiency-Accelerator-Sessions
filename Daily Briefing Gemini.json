@@ -1,0 +1,293 @@
+{
+  "name": "Daily Briefing Gemini",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -880,
+        64
+      ],
+      "id": "4ae7cb2d-832c-40d3-9dd9-6c5555723c3d",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0e7404e7-96c3-4190-9401-4863164b47db",
+              "name": "date_utc",
+              "value": "={{ $now.toUTC().toFormat(\"yyyy-LL-dd\") }}",
+              "type": "string"
+            },
+            {
+              "id": "ca7e5662-fa6f-4b01-a920-524d68783d22",
+              "name": "raw_inputs",
+              "value": "[02:14:08 UTC] Attitude control subsystem switched to Safe Mode due to unexpected torque spike on Reaction Wheel #3. [02:14:12 UTC] Telemetry indicates wheel speed exceeded nominal range by +18%. Automatic braking applied. [02:14:17 UTC] Thermal sensors in Bay 2 reported a sudden 6°C rise over 20 seconds, triggering thermal warning flag (TW-04). [02:14:25 UTC] Command uplink lost for 4 seconds during Safe Mode transition. Link restored automatically. [02:14:32 UTC] System performed health diagnostics: no structural damage detected; Reaction Wheel #3 flagged for recalibration. [02:15:10 UTC] Power subsystem switched from Battery Pack B to Pack A due to voltage fluctuation (−0.9 V below threshold).",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -672,
+        64
+      ],
+      "id": "665ea569-2479-4450-8100-71b050bf31df",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1fc96dbd-fc55-47e5-9749-c3a0d3e9d0ed",
+              "leftValue": "={{ ($json[\"raw_inputs\"] || \"\").trim().length > 0 }}\n",
+              "rightValue": "=",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -464,
+        64
+      ],
+      "id": "803aab52-d1de-41af-9963-c1f63d3343e1",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "faizsolangi@gmail.com",
+        "subject": "=Daily Engineering Briefing No Updates",
+        "message": "No engineering updates were recorded for this period.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -256,
+        272
+      ],
+      "id": "604d0c97-12de-4fb8-9f91-97c6a600113c",
+      "name": "Send a message",
+      "webhookId": "a0c7a644-ac96-460b-9226-231431f13d5d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZNB73qNwwo3cZ54m",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a mission-critical engineering briefing assistant.\n\nYou must be strictly factual.\nUse only the provided inputs.\nDo not invent details.\nReturn valid JSON only.\n\nDate (UTC):\n{{ $json[\"date_utc\"] }}\n\nInputs:\n{{ $json[\"raw_inputs\"] }}\n\nReturn JSON using this schema:\n{\n  \"date_utc\": \"YYYY-MM-DD\",\n  \"events\": [],\n  \"anomalies\": [],\n  \"actions\": [],\n  \"risk_level\": \"low|medium|high\",\n  \"notes\": \"\"\n}\n\nRules:\n- JSON only\n- No markdown\n- No explanations\n- No hallucinations\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        48
+      ],
+      "id": "6cd5f2ed-2b2e-4436-a6ca-73884c137ec3",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "6HEjPP5IYjt7KatA",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const text =$input.first().json.content.parts[0].text\n \n\nif (!text) {\n  throw new Error(\"Gemini output missing\");\n}\n\nlet parsed;\ntry {\n  parsed = JSON.parse(text);\n} catch (e) {\n  const start = text.indexOf(\"{\");\n  const end = text.lastIndexOf(\"}\");\n  if (start === -1 || end === -1) {\n    throw new Error(\"No JSON object found in Gemini response\");\n  }\n  parsed = JSON.parse(text.slice(start, end + 1));\n}\n\nreturn [{ json: parsed }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        96,
+        48
+      ],
+      "id": "d45a2eef-f595-40fa-9108-f020a14cde24",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7d2fb7b4-964c-4eb3-9cef-6f13fb5b0a6b",
+              "name": "subject",
+              "value": "=Daily Engineering Briefing — {{ $json[\"date_utc\"] }} (Risk: {{ $json[\"risk_level\"] }})",
+              "type": "string"
+            },
+            {
+              "id": "2859a6ef-b5d5-4e62-b685-d2dbb73b1556",
+              "name": "body",
+              "value": "=Daily Engineering Briefing (UTC: {{ $json[\"date_utc\"] }})  Risk Level: {{ $json[\"risk_level\"] }}  Key Events: {{ $json[\"events\"].map(e => \"- \" + e).join(\"\\n\") }}  Anomalies: {{ $json[\"anomalies\"].map(a => \"- \" + a).join(\"\\n\") }}  Recommended Actions: {{ $json[\"actions\"].map(a => \"- \" + a).join(\"\\n\") }}  Notes: {{ $json[\"notes\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        304,
+        48
+      ],
+      "id": "8512373e-0201-453d-9e9b-8c0bfe34674f",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "sendTo": "faizsolangi@gmail.com",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        48
+      ],
+      "id": "83232b24-c752-4df7-80e8-f8d34561cfc1",
+      "name": "Send a message1",
+      "webhookId": "39b4f218-fc3e-4462-b00f-a42a0d1ffa78",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZNB73qNwwo3cZ54m",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "98e3fb19-fdf2-4679-a4c6-e661ee38109e",
+  "meta": {
+    "instanceId": "f8313a4a5543efb6473976d0384062f5e7f5077537f2dede242cc29046b35842"
+  },
+  "id": "HDigcmcVyd1FIa08",
+  "tags": []
+}
