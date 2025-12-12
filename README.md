@@ -1,4 +1,4 @@
-# Thomas-s-AI-Proficiency-Accelerator-Sessions
+<img width="2570" height="414" alt="image" src="https://github.com/user-attachments/assets/70745c62-fa67-4d29-a3fa-97acc9598fcf" /># Thomas-s-AI-Proficiency-Accelerator-Sessions
 # AI Proficiency Accelerator — 4-Session Training  
 ### Build Real Agentic AI Skills in 6 Hours  
 
@@ -101,6 +101,14 @@ Each briefing contains:
 - Recommended actions  
 - Risk level  
 - Notes / assumptions  
+- raw_inputs
+[02:14:08 UTC] Attitude control subsystem switched to Safe Mode due to unexpected torque spike on Reaction Wheel #3.
+[02:14:12 UTC] Telemetry indicates wheel speed exceeded nominal range by +18%. Automatic braking applied.
+[02:14:17 UTC] Thermal sensors in Bay 2 reported a sudden 6°C rise over 20 seconds, triggering thermal warning flag (TW-04).
+[02:14:25 UTC] Command uplink lost for 4 seconds during Safe Mode transition. Link restored automatically.
+[02:14:32 UTC] System performed health diagnostics: no structural damage detected; Reaction Wheel #3 flagged for recalibration.
+[02:15:10 UTC] Power subsystem switched from Battery Pack B to Pack A due to voltage fluctuation (−0.9 V below threshold).
+
 
 ---
 
