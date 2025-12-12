@@ -1,4 +1,3 @@
-<img width="2570" height="414" alt="image" src="https://github.com/user-attachments/assets/70745c62-fa67-4d29-a3fa-97acc9598fcf" /># Thomas-s-AI-Proficiency-Accelerator-Sessions
 # AI Proficiency Accelerator — 4-Session Training  
 ### Build Real Agentic AI Skills in 6 Hours  
 
