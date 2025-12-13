@@ -150,9 +150,118 @@ A Streamlit-based automated data analysis assistant that performs:
 - Exportable reports  
 - Deployable on Render  
 
-Perfect for graduate research & faculty projects.
+```text
+You are an expert AI engineer and Python/Streamlit developer.
+Your task is to generate a **complete, production-ready AI application** using 
+**Streamlit + OpenAI API**, fully deployable on **Render**.
 
----
+This application must use the **P.E.A.C.E. Prompt Framework** for all LLM interactions:
+P — Purpose  
+E — Expectations  
+A — Actions  
+C — Constraints  
+E — Evaluation  
+
+Whenever you create an LLM prompt, structure it explicitly using these five sections.
+
+=====================================================
+APP — Agentic AI Data Analysis Bot (Render-ready)
+=====================================================
+
+FEATURES (must include all of the following):
+- CSV uploader
+- Dataset preview (df.head(), df.info())
+- Rich dataset summary extracted via pandas
+- Agentic workflow using OpenAI that generates:
+    - Data cleaning strategy
+    - Feature engineering suggestions
+    - ML model selection (classification/regression)
+    - Python code for training (using pandas + scikit-learn + matplotlib)
+    - Evaluation metric explanation
+- Full report displayed in Streamlit
+- Option to download the report (e.g., as .txt)
+
+=====================================================
+LLM PROMPT REQUIREMENTS (use PEACE Framework)
+=====================================================
+
+For the main LLM call that analyzes the dataset, build the prompt using the PEACE structure:
+
+P — Purpose:  
+    The agent will analyze the dataset in detail as a senior data scientist.
+
+E — Expectations:  
+    Provide a complete analytical pipeline including:
+    - Data cleaning steps
+    - Feature engineering strategy
+    - Model selection rationale (and whether the task is regression or classification)
+    - Python code for the entire ML pipeline
+    - Explanation of evaluation metrics and how to interpret them
+
+A — Actions:  
+    Examine dataset summary → reason about transformations → propose the best model(s) →  
+    generate Python code → explain results in clear, academic language.
+
+C — Constraints:  
+    - No hallucinated columns or features  
+    - Only use columns provided in the dataset  
+    - Avoid incorrect assumptions (state assumptions explicitly if needed)  
+    - If unsure about task type (regression vs classification), clearly state the assumption  
+    - Do not fabricate metric values; only provide code to compute them
+
+E — Evaluation:  
+    Ensure the output is:
+    - Correct and logically consistent  
+    - Structured with sections (e.g., Cleaning, Features, Model, Code, Evaluation)  
+    - Reproducible by a graduate student using Python  
+
+You must implement this PEACE prompt explicitly as a string in the code and pass it to the OpenAI API.
+
+=====================================================
+SHARED CODING REQUIREMENTS
+=====================================================
+
+Generate:
+
+1. A full `app.py` file that:
+   - Uses **Streamlit** for the UI
+   - Uses the **OpenAI Python SDK** with this pattern:
+         from openai import OpenAI
+         client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+   - Loads the API key from `st.secrets["OPENAI_API_KEY"]` (Render-compatible)
+   - Includes basic error handling (e.g., missing key, API failures)
+   - Has clear comments explaining:
+       - UI components
+       - LLM call
+       - PEACE prompt construction
+   - Runs without modification when deployed on Render
+
+2. A `requirements.txt` file containing exactly:
+   streamlit  
+   openai  
+   pandas  
+   matplotlib  
+
+3. A **Render Deployment Guide** that includes:
+   - Build command:
+         pip install -r requirements.txt
+   - Start command:
+         streamlit run app.py --server.port $PORT --server.address 0.0.0.0
+   - Instruction to set `OPENAI_API_KEY` in Render’s Environment variables
+
+=====================================================
+FINAL OUTPUT FORMAT
+=====================================================
+
+Return your answer exactly in this structure:
+
+### 1. Application — Agentic AI Data Analysis Bot
+
+#### app.py
+```python
+# full code here
+```
+
 
 ## 📚 Application 2 — Literature Review & Paper Summarizer
 Features:
@@ -163,5 +272,3 @@ Features:
 - Mini-survey creation  
 - RAG-based semantic search  
 - Export to LaTeX  
-
-Ideal for research groups, PhD students, and grant proposals.
