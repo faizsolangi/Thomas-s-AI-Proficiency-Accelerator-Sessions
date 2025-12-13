@@ -149,7 +149,7 @@ A Streamlit-based automated data analysis assistant that performs:
 - Dashboard visualization  
 - Exportable reports  
 - Deployable on Render  
-
+### Prompt
 ```text
 You are an expert AI engineer and Python/Streamlit developer.
 Your task is to generate a **complete, production-ready AI application** using 
@@ -271,4 +271,127 @@ Features:
 - BibTeX extraction  
 - Mini-survey creation  
 - RAG-based semantic search  
-- Export to LaTeX  
+- Export to LaTeX
+### Prompt
+```text
+You are an expert AI engineer and Python/Streamlit developer.
+Your task is to generate a **complete, production-ready AI application** using 
+**Streamlit + OpenAI API**, fully deployable on **Render**.
+
+This application must use the **P.E.A.C.E. Prompt Framework** for all LLM interactions:
+P — Purpose  
+E — Expectations  
+A — Actions  
+C — Constraints  
+E — Evaluation  
+
+Whenever you create an LLM prompt, structure it explicitly using these five sections.
+
+=====================================================
+APP — AI Research Assistant (Render-ready)
+=====================================================
+
+FEATURES (must include all of the following):
+- Text input for research topic (or abstract)
+- Optional input for field/discipline (e.g., Materials Science, CS, Education)
+- Uses LLM to generate:
+    - A concise academic **Summary**
+    - A list of **Research gaps**
+    - **Methodology suggestions**
+    - A **Related work overview**
+    - Example **APA-style references**
+- Structured outputs with clear headings
+- Clean Streamlit layout
+- Option to download the generated overview as Markdown
+
+=====================================================
+LLM PROMPT REQUIREMENTS (use PEACE Framework)
+=====================================================
+
+For the core LLM call that acts as the research assistant, build the prompt using PEACE:
+
+P — Purpose:  
+    Assist the researcher by generating a structured academic overview of the given topic.
+
+E — Expectations:  
+    Provide concise but detailed academic sections with:
+    - A 150–250 word summary
+    - 3–6 research gaps
+    - 3–5 methodology suggestions
+    - A short related work overview
+    - 5–8 example APA-style references
+
+A — Actions:  
+    - Summarize the topic  
+    - Identify important gaps and open questions  
+    - Propose methodologies (experimental, computational, theoretical, mixed)  
+    - Outline related work themes  
+    - Provide realistic but not fabricated APA-style references
+
+C — Constraints:  
+    - Avoid confidently fabricated citations (titles/authors/years)  
+    - It’s acceptable to provide **generic** / **approximate** references, but label them as examples if needed  
+    - Use real methods and terminology appropriate to the field  
+    - If there is insufficient information, say “insufficient data” or state assumptions clearly  
+    - Maintain an academic tone and structure
+
+E — Evaluation:  
+    Output must:
+    - Follow an academic tone  
+    - Use headings for each section:
+      - Summary
+      - Research Gaps
+      - Methodology Suggestions
+      - Related Work Overview
+      - Example References (APA)  
+    - Be logically coherent and helpful to a graduate student or early-stage researcher  
+
+You must implement this PEACE prompt explicitly as a string in the code and pass it to the OpenAI API.
+
+=====================================================
+SHARED CODING REQUIREMENTS
+=====================================================
+
+Generate:
+
+1. A full `app.py` file that:
+   - Uses **Streamlit** for UI
+   - Uses the **OpenAI Python SDK** with this pattern:
+         from openai import OpenAI
+         client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+   - Loads the API key from `st.secrets["OPENAI_API_KEY"]` (Render-compatible)
+   - Includes basic error handling (e.g., missing key, API failure)
+   - Has clear comments explaining:
+       - UI fields
+       - LLM call
+       - PEACE prompt construction
+   - Provides a **Download as Markdown** button for the generated overview
+   - Runs without modification when deployed on Render
+
+2. A `requirements.txt` file containing exactly:
+   streamlit  
+   openai  
+   pandas  
+   matplotlib  
+
+   (Even if not all are used, keep it identical to the other app for simplicity.)
+
+3. A **Render Deployment Guide** that includes:
+   - Build command:
+         pip install -r requirements.txt
+   - Start command:
+         streamlit run app.py --server.port $PORT --server.address 0.0.0.0
+   - Instruction to set `OPENAI_API_KEY` in Render’s Environment variables
+
+=====================================================
+FINAL OUTPUT FORMAT
+=====================================================
+
+Return your answer exactly in this structure:
+
+### 1. Application — AI Research Assistant
+
+#### app.py
+```python
+# full code here
+```
