@@ -121,12 +121,12 @@ Set (date_utc, raw_inputs)
 IF (skip empty input)
 ├─ TRUE  → OpenAI → Parse JSON → Format Email → Gmail Send
 └─ FALSE → Optional “No Updates” Email / NoOp
-
+```
 **Workflow Template:**  
 `/automation/n8n_daily_briefing.json`
 
 ### Key Outcomes
-Learns to automate engineering workflows and connect LLM outputs to real-time systems.```
+Learns to automate engineering workflows and connect LLM outputs to real-time systems.
 
 
 # 📈 Session 4 — Applications: Academic AI Tools (1.5 hrs)
