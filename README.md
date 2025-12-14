@@ -74,7 +74,7 @@ Goal: understand *when* fine-tuning is worth it.
 - Build a Meeting Scheduler Bot & A RAG Agent   
   [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1sMJtqFFVbJoYCQPqVJef6zFmRWWgMc7f#scrollTo=X8yP76TBodHA)
 - Multiagent Content Crew [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1frj1fTXRtmCsML4N_pfGpykwpHr7ToGV)
-- RL Hands-on [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ZYDwduZjvc51o_2MTdOQTKaB68SqpJ_H)
+- RL Hands-on [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1PVHEDsxSPHvS_NVB3T-AnySytKtm8jo8#scrollTo=uMrCuVwfYRrj)
 ### Key Outcomes
 Thomas builds a working RAG pipeline and understands the architecture behind LLM-powered knowledge systems.
 
